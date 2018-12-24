@@ -7,11 +7,11 @@ using System.Reflection;
 //using System.Reflection.Emit;
 using System.Threading;
 using System.Threading.Tasks;
+using Mono.Cecil;
 
 namespace SPOLab3_Finale
 {
     class MyTestClass : MyClass
-
     {
         const string NS = "SPOLab3_Finale"; //константное значение пространства имен (необходимо для открытия файлов)
                                    //Выводит по имени класса имена методов, которые содержат строковые параметры
@@ -79,6 +79,7 @@ namespace SPOLab3_Finale
             { wrt.WriteLine("{0}", fld.Name); }
             wrt.WriteLine("}}");
             wrt.Close();
+
         }
 
         //Записывает все члены класса в файл *.cs
@@ -88,6 +89,7 @@ namespace SPOLab3_Finale
             Type t = Type.GetType(NS + "." + className);
             StreamWriter writer = new StreamWriter("compile.cs");
             MethodInfo[] mi = t.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+
             foreach (MethodInfo m in mi)
             {
                 Globals.LoadOpCodes();
@@ -96,7 +98,6 @@ namespace SPOLab3_Finale
                 writer.WriteLine(msil);
             }
             writer.Close();
-
         }
 
         // Разбор командной строки
